@@ -1,0 +1,9 @@
+{
+    "setting": {
+        "apiUrlBase" : "http://localhost:58000/",
+        "_apiUrlBase" : "http://moviedo-001-site2.itempurl.com/",
+        "sourceFolder": "e:\\projects\\Tomaestados\\",
+        "destFolder": "e:\\projects\\Tomaestadosdest\\"
+  }
+  
+}

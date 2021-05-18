@@ -1,0 +1,38 @@
+{
+  "name": "celamservice",
+  "version": "1.0.0",
+  "description": "Servicio e automatizacion de importacion facturas y socios mensual",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsc && nodemon  --tls-min-v1.0   dist/app.js",
+    "prod": "tsc && node --tls-min-v1.0  dist/app.js   ",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+
+  },
+  "author": "Marcelo F. Oviedo",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "colors": "^1.4.0",
+    "core-js": "^3.10.2",
+    "dayjs": "^1.10.4",
+    "dotenv": "^8.2.0",
+    "mv": "^2.1.1",
+    "node-cron": "^2.0.3",
+    "typescript-logging": "^1.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.13.16",
+    "@babel/preset-env": "^7.13.15",
+    "@babel/preset-typescript": "^7.13.0",
+    "@types/node": "^14.14.20",
+    "babel-loader": "^8.2.2",
+    "ts-loader": "^9.0.2",
+    "typescript": "^4.2.4",
+    "webpack": "^5.35.0",
+    "webpack-cli": "^4.6.0",
+    "webpack-node-externals": "^3.0.0"
+  },
+  "browserslist": "> 0.25%, not dead, not ie 11"
+}
