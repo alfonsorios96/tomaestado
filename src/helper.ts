@@ -1,6 +1,6 @@
- import * as Color from 'colors';
-import * as dayjs from 'dayjs';
-import 'dayjs/locale/es' 
+ import Color from 'colors';
+import dayjs from 'dayjs';
+import 'dayjs/locale/es' ;
 import * as fs from 'fs';
 
 
@@ -45,30 +45,30 @@ export class Helper {
   public static saveFile = (fileName: string, content: string) => ({
 
   });
-  
-  /* 
-    Coinvierte fecha local y retorna a formato ISO  
+
+  /*
+    Coinvierte fecha local y retorna a formato ISO
   */
   public static getTime_Iso() {
     dayjs().locale('es')
-    
+
     let d = dayjs().toISOString();
-   
+
     return d;
   }
 
- 
+
 
 
 
   public static getMonth_MM(): String {
 
     return  dayjs().format("MM");
-     
-  }
-  
 
-  /* 
+  }
+
+
+  /*
    muestra log en consola y guarda en archivo
    */
   public static Log(message: string,save:boolean=true): void {
@@ -83,14 +83,14 @@ export class Helper {
         {
           Helper.AppendFile(logFileName, log);
         }
-        
+
       console.log(Color.blue(log));
     }catch (error) {
       console.error(`Got an error trying to write to a file: ${error.message}`);
-    } 
-    
+    }
+
   }
- /* 
+ /*
    loguea un error en consola y guarda en archivo
    */
   public static LogError(message: string): void {
@@ -102,7 +102,7 @@ export class Helper {
   }
 
 
-  /* 
+  /*
    returns YYYYMMDD_ prefix
    */
    public static getFileNamePrefix(): String {
@@ -113,7 +113,7 @@ export class Helper {
   public static LogErrorFull(message :string, error: any): void {
 
     Helper.LogError( Helper.GetError(error));
-    
+
     console.log(
       Color.red(
         Helper.getTime_Iso() + " " + message     + "  "    +
@@ -139,5 +139,5 @@ export class Helper {
     return dt
   }
 
-  
+
 }

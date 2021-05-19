@@ -7,7 +7,7 @@
         "moduleResolution": "node",
         "allowJs": true,
         "noImplicitAny": true,
-        
+      "allowSyntheticDefaultImports": true
     },
     "include": [
         "src/**/*.ts"
