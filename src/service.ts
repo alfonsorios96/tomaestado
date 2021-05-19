@@ -1,38 +1,27 @@
-//import { CronJob } from '../node_modules/node-cron';
-const fs = require("fs");
-const path = require("path");
-
-var mv = require('mv');
-const readline = require('readline');
-
-//var colors = require('../node_modules/colors');
-//import  https  from 'https';
-
-import { Color } from "colors";
+import * as fs from 'fs';
+import * as path from 'path';
+import * as Color from 'colors';
 import axios, { AxiosStatic } from "axios";
 import { Helper } from "./helper";
 import { AppSettings } from "./settings";
-import dayjs = require("dayjs");
-import { Console } from "console";
-
-var colors = require("colors");
-var cron = require("node-cron");
-const https = require("https");
+import * as cron from 'node-cron';
+import * as https from 'https';
 
 export class ImportadorTomaEstado {
-  //private cronJob: CronJob;
-  colors: Color;
 
   constructor() {}
 
   public async Start() {
+    
+    
     // console.log(
-    //   colors.blue("------------------Toma Estados Importer Start--------------------")
+    //   Color.blue("------------------Toma Estados Importer Start--------------------")
     // );
     //cada 2 minutos entre las 21 y 22 hs
     // */50 16   20-30 * *  At every 50th minute past hour 16 on every day-of-month from 20 through 30 
     // */2 16-17* * *       At every 2nd minute past every hour from 16 through 17.                    
-    cron.schedule("*/50 16 20-30 * *", async () => {
+    // cron.schedule("*/50 16 20-30 * *", async () => {
+      cron.schedule("* * * * *", async () => {
       // if (!AppSettings.Instance) {
       //   console.log("Toma estados AppSettings.instance is not initialized");
       // }
@@ -42,7 +31,7 @@ export class ImportadorTomaEstado {
 
   public async StartTest() {
     console.log(
-      colors.red("------------------Importer non sheduler Start--------------------")
+      Color.red("------------------Importer non sheduler Start--------------------")
     );
 
     await this.DoWork();
@@ -50,10 +39,11 @@ export class ImportadorTomaEstado {
 
   public async DoWork(): Promise<void> {
     const sourceFolder = path.join(
-      AppSettings.Instance.setting.sourceFolder,  Helper.getPeriodo()
+      AppSettings.Instance.setting.sourceFolder,  Helper.getPeriodo().toString()
     );
+
     const destFolder= path.join(
-      AppSettings.Instance.setting.destFolder,  Helper.getPeriodo()
+      AppSettings.Instance.setting.destFolder,  Helper.getPeriodo().toString()
     );
 
 
@@ -91,7 +81,7 @@ export class ImportadorTomaEstado {
         }
 
       );
-      console.log( colors.yellow(` End process  ${sourceFolder}`) );
+      console.log( Color.yellow(` End process  ${sourceFolder}`) );
 
     } catch (error) {
       Helper.LogErrorFull("Error al leer carpeta de Toma Estados", error);
@@ -112,7 +102,7 @@ export class ImportadorTomaEstado {
       // dentro de la lectura del directorio
       let files = await this.ReadSourceFolder(sourceFolder);
       if(files){
-        console.log( colors.yellow(`----- moving ${files.lenght} files  ${sourceFolder}`) );
+        console.log(Color.yellow(`----- moving ${files.lenght} files  ${sourceFolder}`) );
         for await (const file of files) { 
           if (file.includes("Rutas_")) {
             const sourceFile = path.join( sourceFolder,file);
@@ -124,27 +114,29 @@ export class ImportadorTomaEstado {
           }
             
         }
-        console.log( colors.yellow(`----- calling API  period ${Helper.getPeriodo()}`));
+        console.log( Color.yellow(`----- calling API  period ${Helper.getPeriodo()}`));
         await this.ImportTomaEstados();
       }
       
   
 
       
-      console.log( colors.yellow(` End process  ${sourceFolder}`) );
+      console.log( Color.yellow(` End process  ${sourceFolder}`) );
 
     } catch (error) {
       Helper.LogErrorFull("Error al leer carpeta de Toma Estados", error);
     }
   }
+
+
   private async Move(source: string, dest: string): Promise<any> {
+
     try {
-      mv(source, dest, { mkdirp: true }, function (err:any) {
-        //   // DONE : it first created all the necessary directories, and then
-        //   // tried fs.rename, then falls back to using ncp to copy the dir
-        //   // to dest and then rimraf to remove the source dir
-        Helper.Log("File moved successfully : " + dest);
-      });
+        fs.rename(source, dest, function (err) {
+         // if (err) throw err
+          Helper.Log("File moved successfully : " + dest);
+        })
+   
     } catch (error) {
       Helper.LogError("Error moving file " + Helper.GetError(error));
     }
@@ -154,6 +146,25 @@ export class ImportadorTomaEstado {
       resolve("Moved");
     });
   }
+
+  // private async Moveold(source: string, dest: string): Promise<any> {
+  //   try {
+
+  //     mv(source, dest, { mkdirp: true }, function (err:any) {
+  //       //   // DONE : it first created all the necessary directories, and then
+  //       //   // tried fs.rename, then falls back to using ncp to copy the dir
+  //       //   // to dest and then rimraf to remove the source dir
+  //       Helper.Log("File moved successfully : " + dest);
+  //     });
+  //   } catch (error) {
+  //     Helper.LogError("Error moving file " + Helper.GetError(error));
+  //   }
+
+  //   return new Promise<any>(async (resolve, reject) => {
+  //     //      console.log("------------FIN LECTURA ---------------");
+  //     resolve("Moved");
+  //   });
+  // }
 
   // const  ReadSourceFolder = (sourceFolder: string) => {
   private async ReadSourceFolder(sourceFolder: string): Promise<any> {
@@ -197,7 +208,7 @@ export class ImportadorTomaEstado {
  
     const data = this.GenerateData();
     const message = ` ----------Send to API TomaEstados Period:  ${data.year}_${data.month} `;
-    console.log(colors.blue(message + Helper.getTime_Iso()));
+    console.log(Color.blue(message + Helper.getTime_Iso()));
 
     await axios
       .post(url, data, {

@@ -4,6 +4,8 @@ import { AppSettings } from './settings';
 
 const importer = new ImportadorTomaEstado();
 
+
+
 init().then(()=>{
     importer.Start();
 });

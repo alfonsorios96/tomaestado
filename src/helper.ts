@@ -1,6 +1,5 @@
-
-var colors = require("colors");
-const dayjs = require('dayjs');
+ import * as Color from 'colors';
+import * as dayjs from 'dayjs';
 import 'dayjs/locale/es' 
 import * as fs from 'fs';
 
@@ -8,7 +7,7 @@ import * as fs from 'fs';
 
 export class Helper {
 
-
+  //private static colors: Color;
 
   public static WriteFile(fileName:string, data:string): Promise<void> {
     return new Promise<void>((resolve, reject) => {
@@ -84,7 +83,8 @@ export class Helper {
         {
           Helper.AppendFile(logFileName, log);
         }
-      console.log(colors.blue(log));
+        
+      console.log(Color.blue(log));
     }catch (error) {
       console.error(`Got an error trying to write to a file: ${error.message}`);
     } 
@@ -97,7 +97,7 @@ export class Helper {
     let logFileName = Helper.getFileNamePrefix() + "logs.txt";
     let log = Helper.getTime_Iso() + ' ERROR ';
     log = log.concat( message , '\n');
-    console.log(colors.red(log));
+    console.log(Color.red(log));
     Helper.AppendFile(logFileName, log);
   }
 
@@ -115,7 +115,7 @@ export class Helper {
     Helper.LogError( Helper.GetError(error));
     
     console.log(
-      colors.red(
+      Color.red(
         Helper.getTime_Iso() + " " + message     + "  "    +
           Helper.GetError(error)
       )
@@ -133,7 +133,7 @@ export class Helper {
   }
 
   /* Retorna 2021_04 */
-  public static getPeriodo(): String {
+  public static getPeriodo(): string {
 
     let dt =  dayjs().format("YYYY_MM");
     return dt

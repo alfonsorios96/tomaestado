@@ -8,11 +8,11 @@
     "prod": "tsc && node --tls-min-v1.0  dist/app.js   ",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack"
-
   },
   "author": "Marcelo F. Oviedo",
   "license": "ISC",
   "dependencies": {
+    "@types/node-cron": "^2.0.3",
     "axios": "^0.21.1",
     "colors": "^1.4.0",
     "core-js": "^3.10.2",
